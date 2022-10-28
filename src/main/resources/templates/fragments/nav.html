@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<nav th:fragment="miNav" class="navbar navbar-expand-sm bg-dark navbar-dark">
+	<!-- Brand/logo -->
+	<img class="navbar-brand" alt="logoMVC" th:src="@{/img/download.png}" width="60" height="70">
+	<!-- Links -->
+	<ul id="navIndex" class="navbar-nav">
+		<li class="nav-item"><a class="nav-link" th:href="@{~/index}">INICIO</a></li>
+		<li class="nav-item"><a class="nav-link" th:href="@{~/citas/}">MIS CITAS</a></li>
+		<li class="nav-item"><a class="nav-link" th:href="@{~/citas/nuevo}">NUEVA CITA</a></li>
+		<li class="nav-item"><a class="nav-link" onclick="return confirm('Esta seguro que desea salir?')" th:href="@{~/logout}">SALIR</a></li>
+	</ul>
+	<div class="offset-6 text-center navbar-text" sec:authorize="isAuthenticated()">
+		   <h4> Bienvenido: <span sec:authentication="name">Desconocido</span> </h4>
+	</div>
+</nav>
+</body>
+</html>

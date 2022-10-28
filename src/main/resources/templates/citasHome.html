@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: miHead"></head>
+<body>
+	<nav th:replace="fragments/nav :: miNav"></nav>
+	<div class="bg-light masthead">
+		<!-- tabla de citas  -->
+		<div th:unless="${listadoCitas.isEmpty()}" class="card mt-5">
+			<div class="card-header">
+				<form class="form row" th:action="@{~/citas/}" th:object="${cita}" method="POST">
+					<div class="form-group col-3">
+						<input class="form-control" type="date" id="fechaLlegada" required th:field="*{fechaLlegada}" /> 
+					</div>
+					<div class="form-group col-1">
+						<input type="submit" class="btn btn-info" value="buscar">
+					</div>
+				</form>
+			</div>
+			<div class="card-body">
+				<table class="table table-bordered table-hover table-sm">
+					<thead class="bg-dark text-light">
+						<tr>
+							<th>NO CITA</th>
+							<th>CLIENTE</th>
+							<th>VHEICULO</th>
+							<th>FECHA LLEGADA</th>
+							<th>OBSERVACIONES</th>
+							<th>OPCIONES</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="cita : ${listadoCitas}">
+							<td th:text="${cita.id}"></td>
+							<td th:text="${cita.cliente}"></td>
+							<td th:text="${cita.vehiculo}"></td>
+							<td th:text="${cita.fechaLlegada}"></td>
+							<td th:text="${cita.observaciones}"></td>
+							<td>
+								<a onclick="return confirm('Esta seguro que desea eliminar?')" th:href="@{~/citas/eliminar/{id}(id=${cita.id})}">ELIMINAR</a>
+								<a th:href="@{~/citas/update/{id}(id=${cita.id})}">EDITAR</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="card-footer">
+				<div>
+					<a class="btn btn-danger" th:href="@{~/citas/exportar/all}">EXPORTAR</a>
+				</div>
+			</div>
+		</div>
+		<!-- si el listado esta vacio -->
+		<div th:if="${listadoCitas.isEmpty()}">
+			<h3 class="alert-danger">NO HAY CITAS QUE MOSTRAR</h3>
+		</div>
+	</div>
+	<footer th:replace="fragments/footer :: miFooter"></footer>
+</body>
+</html>

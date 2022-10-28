@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: miHead"></head>
+<body class="bg-light">
+	<nav th:replace="fragments/nav :: miNav"></nav>
+	<section class="masthead">
+		<div class="card col-5 offset-3">
+			<div class="card-header bg-info text-center">
+				<h3>NUEVA CITA</h3>
+			</div>
+			<div class="card-body">
+				<form th:action="@{~/citas/nuevo}" th:object="${cita}" method="POST">
+					<div class="form-group">
+						<label class="form-text" for="cliente">CLIENTE</label> <input
+							class="form-control" id="cliente" th:field="*{cliente}" required
+							placeholder="cliente...">
+					</div>
+
+					<div class="form-group">
+						<label class="form-text" for="vehiculo">VEHICULO</label> <input
+							class="form-control" id="vehiculo" th:field="*{vehiculo}"
+							required placeholder="vehiculo..">
+					</div>
+
+					<div class="form-group">
+						<label class="form-text" for="fechaLlegada">FECHA
+							PROGRAMADA</label> <input class="form-control" type="date"
+							id="fechaLlegada" required th:field="*{fechaLlegada}" />
+					</div>
+
+					<div class="form-group">
+						<label class="form-text" for="observaciones">OBSERVACIONES</label>
+						<input class="form-control" id="observaciones"
+							th:field="*{observaciones}" placeholder="observaciones..">
+					</div>
+
+					<hr>
+					<input class="btn btn-success" type="submit" value="SALVAR">
+				</form>
+			</div>
+		</div>
+	</section>
+	<footer th:replace="fragments/footer :: miFooter"></footer>
+</body>
+</html>
