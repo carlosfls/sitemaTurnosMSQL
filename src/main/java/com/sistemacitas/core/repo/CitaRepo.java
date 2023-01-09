@@ -1,11 +1,10 @@
 package com.sistemacitas.core.repo;
 
-import java.util.Date;
-import java.util.List;
-
+import com.sistemacitas.core.entity.Cita;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.sistemacitas.core.entity.Cita;
+import java.util.Date;
+import java.util.List;
 
 public interface CitaRepo extends JpaRepository<Cita, Long>{
 

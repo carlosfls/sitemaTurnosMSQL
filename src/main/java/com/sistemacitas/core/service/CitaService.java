@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class CitaService implements CitasServiceApi{
+public class CitaService{
 
 	private final CitaRepo citaRepo;
 
@@ -50,7 +50,6 @@ public class CitaService implements CitasServiceApi{
 		citaRepo.deleteById(id);
 	}
 
-	@Override
 	public ByteArrayInputStream exportAllData() throws Exception{
 		String [] columns = {"NO_CITA","CLIENTE","VEHICULO","FECHA_LLEGADA","OBSERVACIONES"};
 		
