@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -39,13 +38,9 @@ public class UserController {
 	}
 	
 	@PostMapping("crear")
-	public String crearUsuario(@Valid @ModelAttribute("usuario") User u, RedirectAttributes redirectAttributes) {
-		try {
-			userService.crearUsuario(u);
-			return "redirect:/login";
-		}catch (Exception e){
-			redirectAttributes.addFlashAttribute("errMessage",e.getMessage());
-			return "redirect:/error";
-		}
+	public String crearUsuario(@Valid @ModelAttribute("usuario") User u) {
+		userService.crearUsuario(u);
+		return "redirect:/login";
+
 	}
 }
