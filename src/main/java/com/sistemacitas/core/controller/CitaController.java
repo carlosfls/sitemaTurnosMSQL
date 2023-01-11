@@ -8,7 +8,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -32,10 +36,8 @@ public class CitaController {
 	
 	@PostMapping("/")
 	public String getCitasPorFecha(@ModelAttribute("cita")Cita cita,Model modelo) {
-		List<Cita>listadoCitas=new ArrayList<>();
-		listadoCitas.addAll(citaService.getAllCitasByFecha(cita.getFechaLlegada()));
+		List<Cita> listadoCitas = new ArrayList<>(citaService.getAllCitasByFecha(cita.getFechaLlegada()));
 		modelo.addAttribute("listadoCitas", listadoCitas);
-		
 		return "citasHome";
 	}
 	
@@ -47,7 +49,6 @@ public class CitaController {
 	@PostMapping("nuevo")
 	public String saveCita(@ModelAttribute("cita")Cita cita) {
 		citaService.createCita(cita);
-		
 		return "redirect:/citas/";
 	}
 
@@ -67,17 +68,14 @@ public class CitaController {
 	@GetMapping("eliminar/{id}")
 	public String deleteCitaPorId(@PathVariable("id") Long id) {
 		citaService.deleteCitaPorId(id);
-		
 		return "redirect:/citas/";
 	}
 	
 	@GetMapping("exportar/all")
 	public ResponseEntity<InputStreamResource> exportAllData() throws Exception{
 		ByteArrayInputStream stream = citaService.exportAllData();
-		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Disposition", "attachment; filename=citas.xls");
-		
 		return ResponseEntity.ok().headers(headers).body(new InputStreamResource(stream));
 	}
 	

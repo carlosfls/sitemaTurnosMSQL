@@ -12,7 +12,7 @@
 				<form th:action="@{/login}" method="post">
 					<!-- los div de mensajes -->
 					<div th:if="${param.error}" class="alert alert-error">
-						Nombre de Usuario o Contraseña invalidos
+						Credenciales incorrectas
 					</div>
 					<div th:if="${param.logout}" class="alert alert-success">
 						Has salido de la aplicación

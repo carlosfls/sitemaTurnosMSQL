@@ -52,22 +52,16 @@ public class CitaService{
 
 	public ByteArrayInputStream exportAllData() throws Exception{
 		String [] columns = {"NO_CITA","CLIENTE","VEHICULO","FECHA_LLEGADA","OBSERVACIONES"};
-		
 		Workbook libro = new HSSFWorkbook();//creando el libro de excel
-		
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		
 		Sheet hoja = libro.createSheet("CITAS");//creando la hoja con la primera fila
 		Row fila = hoja.createRow(0);
-		
 		for (int i = 0; i < columns.length; i++) {//insetando registros en la 1ra fila
 			Cell registro = fila.createCell(i);
 			registro.setCellValue(columns[i]);
 		}
-		
 		List<Cita>citas=this.getAllCitas();
 		int initRow=1;
-		
 		for(Cita ct : citas) {
 			fila = hoja.createRow(initRow);//creamos la 2da fila
 			//insertamos todos los registros en esa fila
@@ -76,14 +70,11 @@ public class CitaService{
 			fila.createCell(2).setCellValue(ct.getVehiculo());
 			fila.createCell(3).setCellValue(ct.getFechaLlegada());
 			fila.createCell(4).setCellValue(ct.getObservaciones());
-			
 			initRow++;
 		}
-		
 		//pasar nuestro libro a stream
 		libro.write(stream);
 		libro.close();
-		
 		return new ByteArrayInputStream(stream.toByteArray());
 	}
 }
