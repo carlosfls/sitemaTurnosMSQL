@@ -54,13 +54,14 @@ public class UserService implements UserDetailsService{
 		if(usrBusq.isPresent()) {
 			log.error("Ya esta creado un usuario con nombre "+ u.getUsername());
 			throw new UsernameNotFoundException("Ya esta creado un usuario con nombre "+ u.getUsername());
+		}else{
+			u.setEnabled(true);
+			u.setAccountNonExpired(u.isEnabled());
+			u.setCredentialsNonExpired(u.isEnabled());
+			u.setAccountNonLocked(u.isEnabled());
+			u.setPassword(passwordEncoder.encode(u.getPassword()));
+			userRepo.save(u);
 		}
-		u.setEnabled(true);
-		u.setAccountNonExpired(u.isEnabled());
-		u.setCredentialsNonExpired(u.isEnabled());
-		u.setAccountNonLocked(u.isEnabled());
-		u.setPassword(passwordEncoder.encode(u.getPassword()));
-		userRepo.save(u);
 	}
 
 }
