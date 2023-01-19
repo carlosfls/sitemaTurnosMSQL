@@ -1,6 +1,6 @@
 package com.sistemacitas.core.service;
 
-import com.sistemacitas.core.entity.Cita;
+import com.sistemacitas.core.models.Cita;
 import com.sistemacitas.core.repo.CitaRepo;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;

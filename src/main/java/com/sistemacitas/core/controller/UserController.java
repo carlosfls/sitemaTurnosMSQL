@@ -1,6 +1,6 @@
 package com.sistemacitas.core.controller;
 
-import com.sistemacitas.core.entity.User;
+import com.sistemacitas.core.models.User;
 import com.sistemacitas.core.service.UserService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
@@ -38,7 +38,7 @@ public class UserController {
 	}
 	
 	@PostMapping("crear")
-	public String crearUsuario(@Valid @ModelAttribute("usuario") User u) {
+	public String crearUsuario(@Valid @ModelAttribute("usuario") User u) throws Exception {
 		userService.crearUsuario(u);
 		return "redirect:/login";
 

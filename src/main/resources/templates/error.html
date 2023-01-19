@@ -4,11 +4,13 @@
 <head th:replace="fragments/head :: miHead"></head>
 <head>
     <meta charset="UTF-8">
-    <title>Test</title>
+    <title>Error</title>
 </head>
 <body>
-    <h1>Ups a ocurrido un error!!</h1>
-    <p th:text="${errMessage}"></p>
-    <a th:href="@{~/}">IR AL INICIO</a>
+    <div class="container-fluid align-content-center">
+        <h1>Ups a ocurrido un error!!</h1>
+        <p th:text="${errMessage}"></p>
+        <a th:href="@{~/}">IR AL INICIO</a>
+    </div>
 </body>
 </html>

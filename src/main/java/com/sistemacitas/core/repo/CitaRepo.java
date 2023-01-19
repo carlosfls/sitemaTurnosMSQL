@@ -1,6 +1,6 @@
 package com.sistemacitas.core.repo;
 
-import com.sistemacitas.core.entity.Cita;
+import com.sistemacitas.core.models.Cita;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Date;

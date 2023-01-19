@@ -1,6 +1,6 @@
 package com.sistemacitas.core.controller;
 
-import com.sistemacitas.core.entity.Cita;
+import com.sistemacitas.core.models.Cita;
 import com.sistemacitas.core.service.CitaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;

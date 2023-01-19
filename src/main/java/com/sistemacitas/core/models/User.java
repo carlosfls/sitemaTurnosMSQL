@@ -1,4 +1,4 @@
-package com.sistemacitas.core.entity;
+package com.sistemacitas.core.models;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

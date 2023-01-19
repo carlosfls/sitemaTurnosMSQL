@@ -1,6 +1,6 @@
 package com.sistemacitas.core.service;
 
-import com.sistemacitas.core.entity.User;
+import com.sistemacitas.core.models.User;
 import com.sistemacitas.core.repo.UserRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -49,11 +49,11 @@ public class UserService implements UserDetailsService{
 		
 	}
 
-	public void crearUsuario(User u) throws UsernameNotFoundException {
+	public void crearUsuario(User u) throws Exception {
 		Optional<User>usrBusq = userRepo.findByUsername(u.getUsername());
 		if(usrBusq.isPresent()) {
 			log.error("Ya esta creado un usuario con nombre "+ u.getUsername());
-			throw new UsernameNotFoundException("Ya esta creado un usuario con nombre "+ u.getUsername());
+			throw new Exception("Ya esta creado un usuario con nombre "+ u.getUsername());
 		}else{
 			u.setEnabled(true);
 			u.setAccountNonExpired(u.isEnabled());
@@ -61,6 +61,16 @@ public class UserService implements UserDetailsService{
 			u.setAccountNonLocked(u.isEnabled());
 			u.setPassword(passwordEncoder.encode(u.getPassword()));
 			userRepo.save(u);
+		}
+	}
+
+	public void eliminarUsuario(Long id) throws UsernameNotFoundException {
+		Optional<User>usrBusq = userRepo.findById(id);
+		if(usrBusq.isPresent()) {
+			userRepo.delete(usrBusq.get());
+		}else{
+			log.error("No exite el usuario");
+			throw new UsernameNotFoundException("No existe el usuario con id "+ id);
 		}
 	}
 
