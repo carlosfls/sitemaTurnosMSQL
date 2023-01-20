@@ -27,8 +27,7 @@ public class CitaController {
 	
 	@GetMapping("/")
 	public String getCitasHome(@ModelAttribute("cita")Cita cita,Model modelo) {
-		List<Cita>listadoCitas=new ArrayList<>();
-		listadoCitas.addAll(citaService.getAllCitas());
+		List<Cita> listadoCitas = new ArrayList<>(citaService.getAllCitas());
 		modelo.addAttribute("listadoCitas", listadoCitas);
 		
 		return "citasHome";
