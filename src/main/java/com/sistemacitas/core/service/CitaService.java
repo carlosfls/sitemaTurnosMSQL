@@ -46,11 +46,12 @@ public class CitaService{
 		citaRepo.save(citaBusq.get());
 	}
 	
-	public void deleteCitaPorId(Long id) {
+	public void deleteCitaById(Long id) {
 		citaRepo.deleteById(id);
 	}
 
 	public ByteArrayInputStream exportAllData() throws Exception{
+		List<Cita>citas=this.getAllCitas();
 		String [] columns = {"NO_CITA","CLIENTE","VEHICULO","FECHA_LLEGADA","OBSERVACIONES"};
 		Workbook libro = new HSSFWorkbook();//creando el libro de excel
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -60,7 +61,6 @@ public class CitaService{
 			Cell registro = fila.createCell(i);
 			registro.setCellValue(columns[i]);
 		}
-		List<Cita>citas=this.getAllCitas();
 		int initRow=1;
 		for(Cita ct : citas) {
 			fila = hoja.createRow(initRow);//creamos la 2da fila

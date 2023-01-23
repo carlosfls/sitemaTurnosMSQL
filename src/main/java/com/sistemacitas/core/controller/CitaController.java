@@ -66,7 +66,7 @@ public class CitaController {
 	
 	@GetMapping("eliminar/{id}")
 	public String deleteCitaPorId(@PathVariable("id") Long id) {
-		citaService.deleteCitaPorId(id);
+		citaService.deleteCitaById(id);
 		return "redirect:/citas/";
 	}
 	

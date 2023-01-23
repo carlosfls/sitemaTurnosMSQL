@@ -3,20 +3,17 @@ package com.sistemacitas.core.service;
 import com.sistemacitas.core.models.User;
 import com.sistemacitas.core.repo.UserRepo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Slf4j
-public class UserService implements UserDetailsService{
+public class UserService{
 
 	private final UserRepo userRepo;
 
@@ -27,26 +24,27 @@ public class UserService implements UserDetailsService{
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<User>usBusq=userRepo.findByUsername(username);
-		if(usBusq.isPresent()) {
-			User u=usBusq.get();
-			List<SimpleGrantedAuthority>permisos=new ArrayList<>();
-			permisos.add(new SimpleGrantedAuthority(u.getRol()));
-			
-			return new org.springframework.security.core.userdetails
-					.User(
-						  u.getUsername(),
-						  u.getPassword(),
-						  u.isEnabled(),
-						  u.isAccountNonExpired(),
-						  u.isCredentialsNonExpired(),
-						  u.isAccountNonExpired(),
-						  permisos);
+	@PostConstruct
+	private void init(){
+		if (userRepo.findAll().isEmpty()){
+			log.info("Creating the default user...");
+			User root = new User();
+			root.setUsername("admin");
+			root.setEnabled(true);
+			root.setAccountNonExpired(root.isEnabled());
+			root.setCredentialsNonExpired(root.isEnabled());
+			root.setAccountNonLocked(root.isEnabled());
+			root.setPassword(passwordEncoder.encode("admin"));
+			root.setRol("ROLE_ADMIN");
+			userRepo.save(root);
+			log.info("Default user created successfully");
+		}else {
+			log.info("The default user already exist");
 		}
-		throw new UsernameNotFoundException(username);
-		
+	}
+
+	public List<User>listarUsuarios(){
+		return userRepo.findAll();
 	}
 
 	public void crearUsuario(User u) throws Exception {

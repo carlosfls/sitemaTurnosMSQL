@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: miHead"></head>
+<body>
+	<nav th:replace="fragments/nav :: miNav"></nav>
+	<div class="bg-light masthead">
+		<div th:unless="${listadoUsuarios.isEmpty()}" class="card mt-5">
+			<div class="card-body">
+				<table class="table table-bordered table-hover table-sm">
+					<thead class="bg-dark text-light">
+						<tr>
+							<th>ID</th>
+							<th>NOMBRE USUARIO</th>
+							<th>ROLE</th>
+							<th>OPCIONES</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="usuario : ${listadoUsuarios}">
+							<td th:text="${usuario.getId()}"></td>
+							<td th:text="${usuario.getUsername()}"></td>
+							<td th:text="${usuario.getRol()}"></td>
+							<td>
+								<a onclick="return confirm('Esta seguro que desea eliminar?')" th:href="@{~/user/eliminar/{id}(id=${usuario.getId()})}">ELIMINAR</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- si el listado esta vacio -->
+		<div th:if="${listadoUsuarios.isEmpty()}">
+			<h3 class="alert-danger">NO HAY USUARIOS QUE MOSTRAR</h3>
+		</div>
+	</div>
+	<footer th:replace="fragments/footer :: miFooter"></footer>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
 <title></title>
 <meta charset="UTF-8">
@@ -15,6 +15,8 @@
 		<li class="nav-item"><a class="nav-link" th:href="@{~/index}">INICIO</a></li>
 		<li class="nav-item"><a class="nav-link" th:href="@{~/citas/}">MIS CITAS</a></li>
 		<li class="nav-item"><a class="nav-link" th:href="@{~/citas/nuevo}">NUEVA CITA</a></li>
+		<span sec:authorize="hasRole('ROLE_ADMIN')"><li class="nav-item"><a class="nav-link" th:href="@{~/user/}">MIS USUARIOS</a></li></span>
+		<span sec:authorize="hasRole('ROLE_ADMIN')"><li class="nav-item"><a class="nav-link" th:href="@{~/user/crear}">NUEVO USUARIO</a></li></span>
 		<li class="nav-item"><a class="nav-link" onclick="return confirm('Esta seguro que desea salir?')" th:href="@{~/logout}">SALIR</a></li>
 	</ul>
 	<div class="offset-6 text-center navbar-text" sec:authorize="isAuthenticated()">
