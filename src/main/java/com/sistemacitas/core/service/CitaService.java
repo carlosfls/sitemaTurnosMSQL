@@ -32,18 +32,26 @@ public class CitaService{
 		return citaRepo.findByFechaLlegada(fecha);
 	}
 
-	public Cita getCitaById(Long id){
-		return citaRepo.findById(id).get();
+	public Cita getCitaById(Long id) throws Exception {
+		Optional<Cita> citaBusq =citaRepo.findById(id);
+		if (citaBusq.isPresent()){
+		  return citaBusq.get();
+		}
+		throw new Exception("No existe la cita con id "+id);
 	}
 	
 	public void createCita(Cita nuevaCita) {
 		citaRepo.save(nuevaCita);
 	}
 
-	public void updateCita(Long id,Cita citaAct){
+	public void updateCita(Long id,Cita citaAct) throws Exception {
 		Optional<Cita> citaBusq = citaRepo.findById(id);
-		utilService.copyNonNullProperties(citaAct,citaBusq.get());
-		citaRepo.save(citaBusq.get());
+		if (citaBusq.isPresent()) {
+			utilService.copyNonNullProperties(citaAct, citaBusq.get());
+			citaRepo.save(citaBusq.get());
+		}else {
+			throw new Exception("No existe la cita con id "+id);
+		}
 	}
 	
 	public void deleteCitaById(Long id) {
@@ -52,19 +60,19 @@ public class CitaService{
 
 	public ByteArrayInputStream exportAllData() throws Exception{
 		List<Cita>citas=this.getAllCitas();
-		String [] columns = {"NO_CITA","CLIENTE","VEHICULO","FECHA_LLEGADA","OBSERVACIONES"};
-		Workbook libro = new HSSFWorkbook();//creando el libro de excel
+		String [] columns = {"ID","CLIENTE","VEHICULO","FECHA_LLEGADA","OBSERVACIONES"};
+		Workbook libro = new HSSFWorkbook();
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		Sheet hoja = libro.createSheet("CITAS");//creando la hoja con la primera fila
+		Sheet hoja = libro.createSheet("CITAS");
+		hoja.setDefaultColumnWidth(5);
 		Row fila = hoja.createRow(0);
-		for (int i = 0; i < columns.length; i++) {//insetando registros en la 1ra fila
+		for (int i = 0; i < columns.length; i++) {
 			Cell registro = fila.createCell(i);
 			registro.setCellValue(columns[i]);
 		}
 		int initRow=1;
 		for(Cita ct : citas) {
-			fila = hoja.createRow(initRow);//creamos la 2da fila
-			//insertamos todos los registros en esa fila
+			fila = hoja.createRow(initRow);
 			fila.createCell(0).setCellValue(ct.getId());
 			fila.createCell(1).setCellValue(ct.getCliente());
 			fila.createCell(2).setCellValue(ct.getVehiculo());
@@ -72,7 +80,6 @@ public class CitaService{
 			fila.createCell(4).setCellValue(ct.getObservaciones());
 			initRow++;
 		}
-		//pasar nuestro libro a stream
 		libro.write(stream);
 		libro.close();
 		return new ByteArrayInputStream(stream.toByteArray());

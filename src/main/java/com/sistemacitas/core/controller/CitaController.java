@@ -52,14 +52,14 @@ public class CitaController {
 	}
 
 	@GetMapping("update/{id}")
-	public String getCitasFormUpdate(@PathVariable("id") Long id,Model modelo) {
+	public String getCitasFormUpdate(@PathVariable("id") Long id,Model modelo) throws Exception {
 		Cita cBusq = citaService.getCitaById(id);
 		modelo.addAttribute(cBusq);
 		return "citasUpdateForm";
 	}
 
 	@PostMapping("update/{id}")
-	public String updateCita(@PathVariable Long id,@ModelAttribute("cita")Cita cita) {
+	public String updateCita(@PathVariable Long id,@ModelAttribute("cita")Cita cita) throws Exception {
 		citaService.updateCita(id,cita);
 		return "redirect:/citas/";
 	}

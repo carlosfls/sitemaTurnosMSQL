@@ -28,14 +28,16 @@ public class UserService{
 	private void init(){
 		if (userRepo.findAll().isEmpty()){
 			log.info("Creating the default user...");
-			User root = new User();
-			root.setUsername("admin");
-			root.setEnabled(true);
-			root.setAccountNonExpired(root.isEnabled());
-			root.setCredentialsNonExpired(root.isEnabled());
-			root.setAccountNonLocked(root.isEnabled());
-			root.setPassword(passwordEncoder.encode("admin"));
-			root.setRol("ROLE_ADMIN");
+			User root = User.builder()
+					.username("admin")
+					.password(passwordEncoder.encode("admin"))
+					.rol("ROLE_ADMIN")
+					.enabled(true)
+					.accountNonExpired(true)
+					.accountNonLocked(true)
+					.credentialsNonExpired(true)
+					.accountNonLocked(true)
+					.build();
 			userRepo.save(root);
 			log.info("Default user created successfully");
 		}else {
